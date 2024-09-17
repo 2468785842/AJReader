@@ -1,5 +1,5 @@
 import { Text } from 'react-native-paper';
 
-export default function HomeScreen(): React.JSX.Element {
+export default function HomeScreen() {
   return (<><Text>Home Screen</Text></>)
 }
