@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TranslationKey} from 'i18n/region-code';
-import {getSystemLanguageCode} from 'i18n';
+import {getSystemLanguageCode} from 'i18n/region-code';
 
 interface Setting {
   languageCode: TranslationKey;
