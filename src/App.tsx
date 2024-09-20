@@ -1,39 +1,47 @@
 import {useEffect, useState} from 'react';
+
 import {Appearance} from 'react-native';
 
-import {BottomNavigation, PaperProvider} from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
+import {PaperProvider} from 'react-native-paper';
+
+import {getCombinedTheme} from 'themes';
+
+import {BottomNavigation} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {CombinedDarkTheme, CombinedDefaultTheme} from 'themes';
-
 import HomeScreen from 'screens/HomeScreen';
-import SettingScreen from 'screens/SettingScreen';
 
-import {useAppSelector} from 'redux/hooks';
 import i18n, {setI18nLocale} from 'i18n';
+import {useAppSelector, useThemeTypeSelector} from 'redux/hooks';
+import SettingStackGroup from 'screens/navigation/SettingStackGroup';
 
 export default function App() {
-  const languageCode = useAppSelector(
-    ({userSetting}) => userSetting.languageCode,
+  const themeType = useThemeTypeSelector();
+
+  const [combinedTheme, setCombinedTheme] = useState(
+    getCombinedTheme(themeType),
   );
 
-  useEffect(() => setI18nLocale(languageCode), [languageCode]);
-
-  const theme = useAppSelector(({userSetting}) => userSetting.theme);
-
-  const [combinedTheme, setCombinedTheme] = useState(getCombinedTheme(theme));
-
   useEffect(() => {
-    setCombinedTheme(getCombinedTheme(theme));
+    // maybe user change
+    setCombinedTheme(getCombinedTheme(themeType));
+
+    // maybe system
     const subscription = Appearance.addChangeListener(({colorScheme}) => {
-      if (theme === 'system') {
+      if (themeType === 'system') {
         setCombinedTheme(getCombinedTheme(colorScheme));
       }
     });
 
     return () => subscription.remove();
-  }, [theme]);
+  }, [themeType]);
+
+  const languageCode = useAppSelector(
+    ({userSetting}) => userSetting.languageCode,
+  );
+
+  useEffect(() => setI18nLocale(languageCode), [languageCode]);
 
   const [index, setIndex] = useState(0);
   const [routes] = useState([
@@ -73,7 +81,7 @@ export default function App() {
 
   const renderScene = BottomNavigation.SceneMap({
     home: HomeScreen,
-    setting: SettingScreen,
+    setting: SettingStackGroup,
   });
 
   return (
@@ -87,15 +95,4 @@ export default function App() {
       </NavigationContainer>
     </PaperProvider>
   );
-}
-
-function getCombinedTheme(theme?: string | null) {
-  let CombinedTheme = CombinedDefaultTheme;
-  if (theme === 'system') {
-    theme = Appearance.getColorScheme() ?? 'light';
-  }
-  if (theme === 'dark') {
-    CombinedTheme = CombinedDarkTheme;
-  }
-  return CombinedTheme;
 }

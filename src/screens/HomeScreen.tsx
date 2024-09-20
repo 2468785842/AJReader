@@ -1,5 +1,10 @@
 import { Text } from 'react-native-paper';
 
 export default function HomeScreen() {
-  return (<><Text>Home Screen</Text></>)
+
+  return (
+    <>
+      <Text>Home Screen</Text>
+    </>
+  );
 }

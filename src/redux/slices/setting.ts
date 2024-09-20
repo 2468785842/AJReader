@@ -4,12 +4,12 @@ import {getSystemLanguageCode} from 'i18n/region-code';
 
 interface Setting {
   languageCode: TranslationKey;
-  theme: 'system' | 'dark' | 'light';
+  themeType: 'system' | 'dark' | 'light';
 }
 
 const initialState: Setting = {
   languageCode: getSystemLanguageCode(),
-  theme: 'system',
+  themeType: 'system',
 };
 
 export const settingSlice = createSlice({
@@ -22,8 +22,8 @@ export const settingSlice = createSlice({
     ) {
       state.languageCode = newState.payload;
     },
-    setTheme(state, newState: PayloadAction<Setting['theme']>) {
-      state.theme = newState.payload;
+    setTheme(state, newState: PayloadAction<Setting['themeType']>) {
+      state.themeType = newState.payload;
     },
   },
 });

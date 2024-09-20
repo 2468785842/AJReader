@@ -1,3 +1,5 @@
+import { Appearance, StatusBarStyle } from 'react-native';
+
 import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
@@ -32,7 +34,26 @@ const CombinedDarkTheme = {
   },
 };
 
-export {
-  CombinedDefaultTheme,
-  CombinedDarkTheme,
+export { CombinedDarkTheme, CombinedDefaultTheme };
+
+export function getStatusBarStyle(theme?: string | null): StatusBarStyle {
+  if (theme === 'system') {
+    theme = Appearance.getColorScheme() ?? 'light';
+  }
+  if (theme === 'dark') {
+    return 'light-content';
+  }
+  if (!theme) return 'default';
+  return 'dark-content';
+}
+
+export function getCombinedTheme(theme?: string | null) {
+  let CombinedTheme = CombinedDefaultTheme;
+  if (theme === 'system') {
+    theme = Appearance.getColorScheme() ?? 'light';
+  }
+  if (theme === 'dark') {
+    CombinedTheme = CombinedDarkTheme;
+  }
+  return CombinedTheme;
 }
