@@ -2,13 +2,12 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {ScrollView, View} from 'react-native';
 import {Surface, Text, TouchableRipple, useTheme} from 'react-native-paper';
 
-import {useThemeTypeSelector} from 'redux/hooks';
-import {SettingStackParamList} from 'screens/navigation/SettingStackGroup';
 import configs from './configs';
+import { AppStackParamList } from 'App';
 
-export default function SettingScreen() {
+export default function SettingsScreen() {
   const theme = useTheme();
-  const navigation = useNavigation<NavigationProp<SettingStackParamList>>();
+  const navigation = useNavigation<NavigationProp<AppStackParamList>>();
 
   return (
     <ScrollView>

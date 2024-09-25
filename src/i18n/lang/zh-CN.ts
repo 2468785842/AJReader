@@ -2,7 +2,7 @@ export default {
   home: {
     title: '主页',
   },
-  setting: {
+  settings: {
     title: '设置',
     base: {
       title: '基本',

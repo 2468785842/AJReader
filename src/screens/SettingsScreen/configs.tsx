@@ -50,11 +50,11 @@ const ThemeToggleBtn: React.FC = () => {
 };
 
 const baseConfigGroup: ConfigGroup = {
-  title: i18n.t('setting.base.title'),
+  title: i18n.t('settings.base.title'),
   childrens: [
     {
-      label: i18n.t('setting.base.language.title'),
-      description: i18n.t('setting.base.language.description'),
+      label: i18n.t('settings.base.language.title'),
+      description: i18n.t('settings.base.language.description'),
       left: <MaterialIcons name="language" size={24} />,
       right: menuRight,
       onPress() {
@@ -62,8 +62,8 @@ const baseConfigGroup: ConfigGroup = {
       },
     },
     {
-      label: i18n.t('setting.base.theme.title'),
-      description: i18n.t('setting.base.theme.description'),
+      label: i18n.t('settings.base.theme.title'),
+      description: i18n.t('settings.base.theme.description'),
       left: <MaterialCommunityIcons name="theme-light-dark" size={24} />,
       right: menuRight,
       onPress(navigate) {

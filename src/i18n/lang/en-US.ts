@@ -2,7 +2,7 @@ export default {
   home: {
     title: 'Home',
   },
-  setting: {
+  settings: {
     title: 'Setting',
     base: {
       title: 'Base',
