@@ -1,16 +1,22 @@
-import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {ScrollView, View} from 'react-native';
 import {Surface, Text, TouchableRipple, useTheme} from 'react-native-paper';
 
+import {BottomSheetModal, BottomSheetView} from '@gorhom/bottom-sheet';
+import {ReactNode, useRef, useState} from 'react';
 import configs from './configs';
-import { AppStackParamList } from 'App';
 
 export default function SettingsScreen() {
   const theme = useTheme();
-  const navigation = useNavigation<NavigationProp<AppStackParamList>>();
+  const sheetRef = useRef<BottomSheetModal>(null);
+  const [node, setNode] = useState<ReactNode>(null);
+
+  sheetRef.current?.[node ? 'present' : 'dismiss']();
 
   return (
     <ScrollView>
+      <BottomSheetModal ref={sheetRef}>
+        <BottomSheetView>{node ?? <></>}</BottomSheetView>
+      </BottomSheetModal>
       <View style={{margin: 16}}>
         {configs.map(group => (
           <View key={group.title} style={{rowGap: 8}}>
@@ -21,7 +27,10 @@ export default function SettingsScreen() {
               {group.childrens.map(child => (
                 <TouchableRipple
                   key={child.label}
-                  onPress={() => child.onPress(navigation.navigate)}>
+                  onPress={() => {
+                    setNode(node ? null : child.component);
+                    child.onPress?.();
+                  }}>
                   <View
                     style={{
                       flexDirection: 'row',

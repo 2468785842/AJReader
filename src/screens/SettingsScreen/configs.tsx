@@ -1,53 +1,29 @@
 import React from 'react';
-import {SegmentedButtons} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import i18n from 'i18n';
+import {BottomSheetMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
 
-import {useAppDispatch, useThemeTypeSelector} from 'redux/hooks';
-import {setTheme} from 'redux/slices/setting';
-import {SettingStackParamList} from 'screens/navigation/SettingStackGroup';
+import ThemeChooseCard from 'screens/components/ThemeScreen';
+
+import i18n from 'i18n';
 
 type Config = {
   label: string;
   description: string;
-  onPress: (
-    navigate: (
-      ...args:
-        | [screen: keyof SettingStackParamList]
-        | [
-            screen: keyof SettingStackParamList,
-            params: SettingStackParamList[keyof SettingStackParamList],
-          ]
-    ) => void,
-  ) => void;
   left: React.ReactNode;
   right: React.ReactNode;
+  component?: React.ReactNode;
+
+  onPress?: () => void;
 };
 
 interface ConfigGroup {
   title: string;
   childrens: Config[];
 }
-const menuRight = <MaterialIcons name="chevron-right" size={24} />;
 
-const ThemeToggleBtn: React.FC = () => {
-  const themeType = useThemeTypeSelector();
-  const dispatch = useAppDispatch();
-  const themeStrList = ['system', 'dark', 'light'];
-  return (
-    <SegmentedButtons
-      style={{}}
-      value={themeType}
-      onValueChange={value => dispatch(setTheme(value as typeof themeType))}
-      buttons={themeStrList.map(value => ({
-        value,
-        label: i18n.t(`setting.base.theme.${value}`),
-      }))}
-    />
-  );
-};
+const menuRight = <MaterialIcons name="chevron-right" size={24} />;
 
 const baseConfigGroup: ConfigGroup = {
   title: i18n.t('settings.base.title'),
@@ -66,9 +42,7 @@ const baseConfigGroup: ConfigGroup = {
       description: i18n.t('settings.base.theme.description'),
       left: <MaterialCommunityIcons name="theme-light-dark" size={24} />,
       right: menuRight,
-      onPress(navigate) {
-        navigate('Theme');
-      },
+      component: <ThemeChooseCard />,
     },
   ],
 };

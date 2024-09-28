@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
-import { Appearance } from 'react-native';
+import {Appearance} from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { PaperProvider } from 'react-native-paper';
+import {NavigationContainer} from '@react-navigation/native';
+import {PaperProvider} from 'react-native-paper';
 
-import { getCombinedTheme } from 'themes';
+import {getCombinedTheme} from 'themes';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { setI18nLocale } from 'i18n';
-import { useAppSelector, useThemeTypeSelector } from 'redux/hooks';
-import BottomNav from 'screens/navigation/BottomNav';
-import ThemeScreen from 'screens/ThemeScreen';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {setI18nLocale} from 'i18n';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {useAppSelector, useThemeTypeSelector} from 'redux/hooks';
+import BottomNav from 'screens/navigation/BottomNavigator';
 
 export type AppStackParamList = {
   BottomNav: undefined;
-  Theme: undefined;
 };
 
 const AppNativeStack = createNativeStackNavigator<AppStackParamList>();
@@ -49,20 +49,19 @@ export default function App() {
 
   return (
     <PaperProvider theme={combinedTheme}>
-      <NavigationContainer theme={combinedTheme}>
-        <AppNativeStack.Navigator
-          initialRouteName="BottomNav"
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <AppNativeStack.Screen name="BottomNav" component={BottomNav} />
-          <AppNativeStack.Screen
-            name="Theme"
-            component={ThemeScreen}
-            options={{headerShown: true}}
-          />
-        </AppNativeStack.Navigator>
-      </NavigationContainer>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <BottomSheetModalProvider>
+          <NavigationContainer theme={combinedTheme}>
+            <AppNativeStack.Navigator
+              initialRouteName="BottomNav"
+              screenOptions={{
+                headerShown: false,
+              }}>
+              <AppNativeStack.Screen name="BottomNav" component={BottomNav} />
+            </AppNativeStack.Navigator>
+          </NavigationContainer>
+        </BottomSheetModalProvider>
+      </GestureHandlerRootView>
     </PaperProvider>
   );
 }

@@ -11,7 +11,7 @@ import SettingsScreen from 'screens/SettingsScreen';
 import i18n from 'i18n';
 import {useThemeTypeSelector} from 'redux/hooks';
 
-export default function BottomNav() {
+export default function BottomNavigator() {
   const themeType = useThemeTypeSelector();
   const theme = getCombinedTheme(themeType);
 
